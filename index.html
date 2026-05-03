@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackmoped — AI Quote Generator for UK Electricians</title>
+<meta name="description" content="Voice or type a job. Get an itemised, Part P-aware UK electrical quote in 60 seconds.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%230a0a0a'/%3E%3Ccircle cx='10' cy='28' r='6' fill='none' stroke='%23f5f0e8' stroke-width='2'/%3E%3Ccircle cx='30' cy='28' r='6' fill='none' stroke='%23f5f0e8' stroke-width='2'/%3E%3Cpath d='M10 28 L16 18 L26 18 L30 28' stroke='%23f5f0e8' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M18 18 L22 10 L28 10' stroke='%23f5d020' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-2: #0f0f0f;
+    --bg-3: #141414;
+    --fg: #f5f0e8;
+    --fg-dim: #a8a39b;
+    --muted: #6a6a6a;
+    --accent: #f5d020;
+    --accent-dim: #c9a818;
+    --border: #1f1f1f;
+    --border-2: #2a2a2a;
+    --good: #5fbf6a;
+    --bad: #e85a5a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(circle at 12% -5%, rgba(245, 208, 32, 0.06), transparent 45%),
+      radial-gradient(circle at 95% 35%, rgba(245, 208, 32, 0.03), transparent 50%);
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 3; }
+
+  /* HEADER */
+  header {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; }
+  .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--fg); }
+  .logo svg { width: 36px; height: 36px; }
+  .logo-text {
+    font-family: 'Anton', sans-serif;
+    font-size: 21px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero { padding: 60px 0 40px; text-align: center; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    padding: 7px 12px;
+    border: 1px solid rgba(245, 208, 32, 0.3);
+    border-radius: 100px;
+    background: rgba(245, 208, 32, 0.05);
+  }
+  .eyebrow-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  h1 .accent { color: var(--accent); }
+  .hero-sub { color: var(--fg-dim); font-size: 17px; max-width: 580px; margin: 0 auto; }
+
+  /* APP */
+  .app { padding: 40px 0 80px; }
+  .app-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .panel-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .panel-label::before { content: ''; width: 22px; height: 1px; background: var(--accent); }
+
+  .panel h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  /* INPUT PANEL */
+  textarea#jobInput {
+    width: 100%;
+    min-height: 200px;
+    background: var(--bg);
+    border: 1px solid var(--border-2);
+    color: var(--fg);
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  textarea#jobInput:focus { outline: none; border-color: var(--accent); }
+  textarea#jobInput::placeholder { color: var(--muted); }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 22px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--border-2);
+    color: var(--fg);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    flex: 1;
+    min-width: 120px;
+  }
+  .btn:hover:not(:disabled) { border-color: var(--fg); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  .btn-primary:hover:not(:disabled) { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+
+  .btn-mic.recording {
+    background: var(--bad);
+    border-color: var(--bad);
+    color: var(--fg);
+    animation: pulseBad 1.2s infinite;
+  }
+  @keyframes pulseBad {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232, 90, 90, 0.5); }
+    50% { box-shadow: 0 0 0 10px rgba(232, 90, 90, 0); }
+  }
+
+  /* RATES */
+  .rates {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .rates-toggle {
+    background: none;
+    border: none;
+    color: var(--fg-dim);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    transition: color 0.2s;
+  }
+  .rates-toggle:hover { color: var(--accent); }
+  .rates-toggle .arrow { transition: transform 0.2s; }
+  .rates.open .rates-toggle .arrow { transform: rotate(90deg); }
+  .rates-content {
+    display: none;
+    margin-top: 16px;
+    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .rates.open .rates-content { display: grid; }
+  .rate-field { display: flex; flex-direction: column; gap: 6px; }
+  .rate-field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  .rate-field input, .rate-field select {
+    background: var(--bg);
+    border: 1px solid var(--border-2);
+    color: var(--fg);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+  }
+  .rate-field input:focus, .rate-field select:focus { outline: none; border-color: var(--accent); }
+
+  /* QUOTE PANEL */
+  .quote-empty {
+    color: var(--muted);
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 14px;
+  }
+  .quote-empty .quote-empty-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    border: 1px dashed var(--border-2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+  }
+
+  .quote-loading {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--fg-dim);
+  }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .quote-error {
+    background: rgba(232, 90, 90, 0.08);
+    border: 1px solid rgba(232, 90, 90, 0.3);
+    color: var(--fg);
+    padding: 16px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin: 20px 0;
+  }
+
+  /* GENERATED QUOTE */
+  .quote-result { display: none; }
+  .quote-result.visible { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .q-summary {
+    font-size: 14px;
+    color: var(--fg-dim);
+    padding: 12px 16px;
+    background: var(--bg);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .q-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .q-meta-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .q-meta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .q-meta-value { font-size: 14px; color: var(--fg); font-weight: 500; }
+
+  .q-items {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .q-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .q-item:last-child { border-bottom: none; }
+  .q-item-desc { font-size: 13.5px; }
+  .q-item-cat {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(245, 208, 32, 0.08);
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+  }
+  .q-item-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--fg);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .q-item-qty { color: var(--muted); font-size: 12px; }
+
+  .q-totals { padding: 14px 16px; background: var(--bg); border-radius: 8px; }
+  .q-total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--fg-dim);
+  }
+  .q-total-row.grand {
+    border-top: 1px solid var(--border-2);
+    margin-top: 8px;
+    padding-top: 14px;
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--fg);
+  }
+  .q-total-row.grand .price { color: var(--accent); }
+
+  .q-compliance {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: rgba(245, 208, 32, 0.05);
+    border: 1px solid rgba(245, 208, 32, 0.2);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--fg);
+    line-height: 1.6;
+  }
+  .q-compliance strong { color: var(--accent); }
+
+  .q-assumptions { margin-top: 18px; }
+  .q-assumptions h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .q-assumptions ul { list-style: none; }
+  .q-assumptions li {
+    font-size: 13px;
+    color: var(--fg-dim);
+    padding: 4px 0 4px 18px;
+    position: relative;
+  }
+  .q-assumptions li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .q-actions { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+
+  /* EXAMPLES */
+  .examples { margin-top: 16px; }
+  .examples-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .example-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    background: var(--bg);
+    border: 1px solid var(--border-2);
+    color: var(--fg-dim);
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .chip:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 860px) {
+    .app-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 42px; }
+    .panel { padding: 22px; }
+  }
+
+  @media (max-width: 480px) {
+    .input-row { flex-direction: column; }
+    .btn { width: 100%; }
+    .rates-content { grid-template-columns: 1fr; }
+    .q-meta { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="30" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="10" cy="28" r="1.6" fill="#f5d020"/>
+            <circle cx="30" cy="28" r="1.6" fill="#f5d020"/>
+            <path d="M 10 28 L 16 18 L 26 18 L 30 28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 18 18 L 22 10 L 28 10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="20" y1="14" x2="26" y2="14" stroke="#f5d020" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="logo-text">Blackmoped</span>
+        </a>
+        <span class="header-tag">UK Electricians • Free Beta</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow"><span class="eyebrow-dot"></span><span>Live AI Quote Generator</span></div>
+        <h1>Describe a job.<br><span class="accent">Get a real quote.</span></h1>
+        <p class="hero-sub">Tap the mic or type. Blackmoped writes a fully itemised, Part P-aware UK electrical quote in seconds.</p>
+      </div>
+    </section>
+
+    <section class="app">
+      <div class="container">
+        <div class="app-grid">
+
+          <!-- ── INPUT ── -->
+          <div class="panel">
+            <div class="panel-label"><span>Step 1</span></div>
+            <h2>Describe the job</h2>
+
+            <textarea id="jobInput" placeholder="Example: Customer wants two double sockets in the kitchen, one in the hallway, consumer unit upgrade to a 10-way RCBO board, plus an EICR on the whole flat. It's a 1-bed in Manchester."></textarea>
+
+            <div class="input-row">
+              <button class="btn btn-mic" id="micBtn" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                </svg>
+                <span id="micBtnText">Voice</span>
+              </button>
+              <button class="btn btn-primary" id="generateBtn" type="button">
+                Generate quote
+                <span>→</span>
+              </button>
+            </div>
+
+            <div class="examples">
+              <div class="examples-label">Try one of these:</div>
+              <div class="example-chips">
+                <button class="chip" data-example="Replace a tripping consumer unit in a 3-bed house with a new 12-way dual RCD board, in Birmingham. Existing wiring is in good nick.">CU upgrade</button>
+                <button class="chip" data-example="EICR on a 4-bed rented HMO in London, 3 floors, landlord wants the certificate sorted ASAP.">EICR (HMO)</button>
+                <button class="chip" data-example="Install a 7kW EV charger on a detached house drive, cable run about 8 metres from the CU, in Leeds.">EV charger</button>
+                <button class="chip" data-example="Add four downlights and dimmer to a kitchen ceiling, plus an extractor fan over the hob. House is in Bristol.">Kitchen lighting</button>
+                <button class="chip" data-example="Full rewire of a 3-bed Victorian terrace, currently has rubber-insulated cabling. Bristol area.">Full rewire</button>
+              </div>
+            </div>
+
+            <div class="rates" id="ratesPanel">
+              <button class="rates-toggle" id="ratesToggle" type="button">
+                <span class="arrow">▶</span>
+                <span>Optional: set your rates</span>
+              </button>
+              <div class="rates-content">
+                <div class="rate-field">
+                  <label for="region">Region</label>
+                  <select id="region">
+                    <option value="">Auto-detect</option>
+                    <option value="London / South East">London / South East</option>
+                    <option value="South West">South West</option>
+                    <option value="Midlands">Midlands</option>
+                    <option value="North West">North West</option>
+                    <option value="North East">North East</option>
+                    <option value="Scotland">Scotland</option>
+                    <option value="Wales">Wales</option>
+                    <option value="Northern Ireland">Northern Ireland</option>
+                  </select>
+                </div>
+                <div class="rate-field">
+                  <label for="dayRate">Day rate (£)</label>
+                  <input type="number" id="dayRate" placeholder="320" min="100" max="1000">
+                </div>
+                <div class="rate-field">
+                  <label for="hourlyRate">Hourly rate (£)</label>
+                  <input type="number" id="hourlyRate" placeholder="50" min="10" max="200">
+                </div>
+                <div class="rate-field">
+                  <label for="markup">Material markup (%)</label>
+                  <input type="number" id="markup" placeholder="20" min="0" max="100">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── OUTPUT ── -->
+          <div class="panel">
+            <div class="panel-label"><span>Step 2</span></div>
+            <h2>Your quote</h2>
+
+            <div id="quoteEmpty" class="quote-empty">
+              <div class="quote-empty-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="14 2 14 8 20 8"/>
+                  <path d="M19 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9l5 5v13a2 2 0 0 1-2 2z"/>
+                  <line x1="9" y1="13" x2="15" y2="13"/>
+                  <line x1="9" y1="17" x2="13" y2="17"/>
+                </svg>
+              </div>
+              <div>Your quote will appear here once you describe a job.</div>
+            </div>
+
+            <div id="quoteLoading" class="quote-loading" style="display:none;">
+              <div class="spinner"></div>
+              <div>Writing your quote…</div>
+            </div>
+
+            <div id="quoteError" class="quote-error" style="display:none;"></div>
+
+            <div id="quoteResult" class="quote-result"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Blackmoped • Quotes are estimates — always verify before sending • Made for UK sparks
+    </div>
+  </footer>
+
+  <script>
+    // ============================================================
+    // CONFIG — change this once your backend is on Render
+    // ============================================================
+    const API_URL = window.location.hostname === 'localhost'
+      ? 'http://localhost:3000/api/quote'
+      : 'https://blackmoped-backend.onrender.com/api/quote';
+    // ↑ replace 'blackmoped-backend' with whatever you name your Render service
+    // ============================================================
+
+    const $ = (id) => document.getElementById(id);
+    const jobInput = $('jobInput');
+    const generateBtn = $('generateBtn');
+    const micBtn = $('micBtn');
+    const micBtnText = $('micBtnText');
+    const ratesPanel = $('ratesPanel');
+    const ratesToggle = $('ratesToggle');
+
+    const quoteEmpty = $('quoteEmpty');
+    const quoteLoading = $('quoteLoading');
+    const quoteError = $('quoteError');
+    const quoteResult = $('quoteResult');
+
+    // ── Rates toggle ──
+    ratesToggle.addEventListener('click', () => ratesPanel.classList.toggle('open'));
+
+    // ── Example chips ──
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        jobInput.value = chip.dataset.example;
+        jobInput.focus();
+      });
+    });
+
+    // ── Voice input (browser Web Speech API) ──
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isRecording = false;
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-GB';
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      let finalTranscript = '';
+
+      recognition.onresult = (event) => {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript + ' ';
+          } else {
+            interim += transcript;
+          }
+        }
+        jobInput.value = (finalTranscript + interim).trim();
+      };
+
+      recognition.onerror = (e) => {
+        console.error('Speech recognition error:', e.error);
+        stopRecording();
+      };
+
+      recognition.onend = () => {
+        if (isRecording) {
+          // sometimes browsers stop spontaneously — restart
+          try { recognition.start(); } catch(e) { stopRecording(); }
+        }
+      };
+
+      micBtn.addEventListener('click', () => {
+        if (isRecording) {
+          stopRecording();
+        } else {
+          finalTranscript = jobInput.value ? jobInput.value + ' ' : '';
+          try {
+            recognition.start();
+            isRecording = true;
+            micBtn.classList.add('recording');
+            micBtnText.textContent = 'Stop';
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      });
+
+      function stopRecording() {
+        isRecording = false;
+        try { recognition.stop(); } catch(e) {}
+        micBtn.classList.remove('recording');
+        micBtnText.textContent = 'Voice';
+      }
+    } else {
+      micBtn.addEventListener('click', () => {
+        showError('Voice input not supported in this browser. Try Chrome on desktop or mobile.');
+      });
+    }
+
+    // ── Generate quote ──
+    generateBtn.addEventListener('click', generateQuote);
+    jobInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generateQuote();
+    });
+
+    async function generateQuote() {
+      const jobDescription = jobInput.value.trim();
+      if (jobDescription.length < 10) {
+        showError('Give us a bit more detail about the job.');
+        return;
+      }
+
+      hideError();
+      quoteEmpty.style.display = 'none';
+      quoteResult.classList.remove('visible');
+      quoteLoading.style.display = 'block';
+      generateBtn.disabled = true;
+
+      const electrician = {};
+      const region = $('region').value;
+      const dayRate = $('dayRate').value;
+      const hourlyRate = $('hourlyRate').value;
+      const markup = $('markup').value;
+      if (region) electrician.region = region;
+      if (dayRate) electrician.dayRate = parseFloat(dayRate);
+      if (hourlyRate) electrician.hourlyRate = parseFloat(hourlyRate);
+      if (markup) electrician.materialMarkup = parseFloat(markup);
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jobDescription,
+            electrician: Object.keys(electrician).length > 0 ? electrician : undefined,
+          }),
+        });
+
+        const data = await res.json();
+        quoteLoading.style.display = 'none';
+        generateBtn.disabled = false;
+
+        if (!res.ok || !data.success) {
+          showError(data.error || 'Could not generate a quote. Try again.');
+          quoteEmpty.style.display = 'block';
+          return;
+        }
+
+        renderQuote(data.quote);
+      } catch (err) {
+        console.error(err);
+        quoteLoading.style.display = 'none';
+        generateBtn.disabled = false;
+        showError('Network error. Check the backend is running and the API_URL in this page matches your Render service.');
+        quoteEmpty.style.display = 'block';
+      }
+    }
+
+    function showError(msg) {
+      quoteError.textContent = msg;
+      quoteError.style.display = 'block';
+    }
+    function hideError() {
+      quoteError.style.display = 'none';
+    }
+
+    function fmt(pence) {
+      const pounds = (pence / 100).toFixed(2);
+      return '£' + Number(pounds).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function renderQuote(q) {
+      const itemsHtml = q.items.map(item => `
+        <div class="q-item">
+          <div>
+            <div class="q-item-desc">
+              ${escapeHtml(item.description)}
+              ${item.qty > 1 ? `<span class="q-item-qty"> × ${item.qty}</span>` : ''}
+              <span class="q-item-cat">${escapeHtml(item.category || 'item')}</span>
+            </div>
+          </div>
+          <div class="q-item-price">${fmt(item.unit_price_pence * (item.qty || 1))}</div>
+        </div>
+      `).join('');
+
+      const certText = q.certificate_required && q.certificate_required !== 'none'
+        ? `Certificate to be issued: <strong>${escapeHtml(q.certificate_required)}</strong>`
+        : 'No certificate required';
+
+      const assumptionsHtml = (q.assumptions || []).map(a => `<li>${escapeHtml(a)}</li>`).join('');
+
+      quoteResult.innerHTML = `
+        <div class="q-summary">${escapeHtml(q.summary || '')}</div>
+
+        <div class="q-meta">
+          <div class="q-meta-card">
+            <div class="q-meta-label">Duration</div>
+            <div class="q-meta-value">${escapeHtml(q.estimated_duration || '—')}</div>
+          </div>
+          <div class="q-meta-card">
+            <div class="q-meta-label">Notifiable</div>
+            <div class="q-meta-value">${q.notifiable_work ? 'Yes (Part P)' : 'No'}</div>
+          </div>
+        </div>
+
+        <div class="q-items">${itemsHtml}</div>
+
+        <div class="q-totals">
+          <div class="q-total-row"><span>Subtotal</span><span class="price">${fmt(q.subtotal_pence)}</span></div>
+          <div class="q-total-row"><span>VAT (20%)</span><span class="price">${fmt(q.vat_pence)}</span></div>
+          <div class="q-total-row grand"><span>Total</span><span class="price">${fmt(q.total_pence)}</span></div>
+        </div>
+
+        ${q.compliance_notes ? `<div class="q-compliance"><strong>Compliance:</strong> ${escapeHtml(q.compliance_notes)}<br>${certText}</div>` : ''}
+
+        ${assumptionsHtml ? `<div class="q-assumptions"><h4>Assumptions</h4><ul>${assumptionsHtml}</ul></div>` : ''}
+
+        <div class="q-actions">
+          <button class="btn" onclick="window.print()">Print / Save PDF</button>
+          <button class="btn btn-primary" onclick="copyQuote()">Copy quote</button>
+        </div>
+      `;
+      quoteResult.classList.add('visible');
+    }
+
+    function escapeHtml(s) {
+      if (s == null) return '';
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    window.copyQuote = function() {
+      const text = quoteResult.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Quote copied to clipboard.');
+      });
+    };
+  </script>
+</body>
+</html>
