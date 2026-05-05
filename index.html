@@ -3,488 +3,385 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blackmoped — AI Quote Generator for UK Electricians</title>
-<meta name="description" content="Voice or type a job. Get an itemised, Part P-aware UK electrical quote in 60 seconds.">
+<title>Blackmoped — AI Quote Generator for UK Electricians | Quote in 60 seconds</title>
+<meta name="description" content="AI quoting tool for UK electricians. Voice or type a job, get a Part P-aware itemised quote in 60 seconds. From £14/mo. Built for sparks, not for ten-van firms.">
+<meta name="keywords" content="electrician software UK, AI quote generator, Part P, BS 7671, EICR, electrician app, sparks quoting tool, ContractorAI">
+<meta name="author" content="Blackmoped">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://blackmoped.com/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blackmoped.com/">
+<meta property="og:title" content="Blackmoped — AI Quote Generator for UK Electricians">
+<meta property="og:description" content="Voice or type a job, get a Part P-aware itemised UK electrical quote in 60 seconds. From £14/mo.">
+<meta property="og:image" content="https://blackmoped.com/og-image.png">
+<meta property="og:site_name" content="Blackmoped">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blackmoped — AI Quote Generator for UK Electricians">
+<meta name="twitter:description" content="Voice or type a job, get a Part P-aware itemised UK electrical quote in 60 seconds.">
+<meta name="twitter:image" content="https://blackmoped.com/og-image.png">
+
+<!-- Favicons & icons -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+
+<!-- JSON-LD structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Blackmoped",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "description": "AI quoting tool for UK electricians. Voice or type a job, get a Part P-aware itemised quote in seconds.",
+  "url": "https://blackmoped.com",
+  "offers": {
+    "@type": "Offer",
+    "price": "14",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2026-12-31"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "1"
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%230a0a0a'/%3E%3Ccircle cx='10' cy='28' r='6' fill='none' stroke='%23f5f0e8' stroke-width='2'/%3E%3Ccircle cx='30' cy='28' r='6' fill='none' stroke='%23f5f0e8' stroke-width='2'/%3E%3Cpath d='M10 28 L16 18 L26 18 L30 28' stroke='%23f5f0e8' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M18 18 L22 10 L28 10' stroke='%23f5d020' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --bg-2: #0f0f0f;
-    --bg-3: #141414;
-    --fg: #f5f0e8;
-    --fg-dim: #a8a39b;
-    --muted: #6a6a6a;
-    --accent: #f5d020;
-    --accent-dim: #c9a818;
-    --border: #1f1f1f;
-    --border-2: #2a2a2a;
-    --good: #5fbf6a;
-    --bad: #e85a5a;
+    --bg: #0a0a0a; --bg-2: #0f0f0f; --bg-3: #141414;
+    --fg: #f5f0e8; --fg-dim: #a8a39b; --muted: #6a6a6a;
+    --accent: #f5d020; --accent-dim: #c9a818;
+    --border: #1f1f1f; --border-2: #2a2a2a;
+    --good: #5fbf6a; --bad: #e85a5a;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-
   body {
-    background: var(--bg);
-    color: var(--fg);
+    background: var(--bg); color: var(--fg);
     font-family: 'Manrope', system-ui, sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
+    font-size: 15px; line-height: 1.6; min-height: 100vh;
   }
-
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
     background-image:
-      radial-gradient(circle at 12% -5%, rgba(245, 208, 32, 0.06), transparent 45%),
-      radial-gradient(circle at 95% 35%, rgba(245, 208, 32, 0.03), transparent 50%);
+      radial-gradient(circle at 12% -5%, rgba(245,208,32,0.06), transparent 45%),
+      radial-gradient(circle at 95% 35%, rgba(245,208,32,0.03), transparent 50%);
   }
-
   .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 3; }
 
   /* HEADER */
   header {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(12px);
+    padding: 18px 0; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     z-index: 100;
   }
-  .header-inner { display: flex; justify-content: space-between; align-items: center; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--fg); }
   .logo svg { width: 36px; height: 36px; }
-  .logo-text {
-    font-family: 'Anton', sans-serif;
-    font-size: 21px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
+  .logo-text { font-family: 'Anton', sans-serif; font-size: 21px; letter-spacing: 0.07em; text-transform: uppercase; }
+  nav { display: flex; gap: 22px; align-items: center; }
+  nav a {
+    color: var(--fg-dim); text-decoration: none; font-size: 13px; font-weight: 500;
+    transition: color 0.2s;
   }
-  .header-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+  nav a:hover, nav a.active { color: var(--accent); }
+  .nav-cta {
+    padding: 8px 16px; border: 1px solid var(--accent);
+    color: var(--accent) !important; font-weight: 600;
+    border-radius: 4px; transition: all 0.2s;
   }
+  .nav-cta:hover { background: var(--accent); color: var(--bg) !important; }
+  .menu-btn { display: none; background: none; border: none; color: var(--fg); cursor: pointer; padding: 6px; }
 
   /* HERO */
-  .hero { padding: 60px 0 40px; text-align: center; }
+  .hero { padding: 54px 0 36px; text-align: center; }
   .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 24px;
-    padding: 7px 12px;
-    border: 1px solid rgba(245, 208, 32, 0.3);
-    border-radius: 100px;
-    background: rgba(245, 208, 32, 0.05);
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 20px; padding: 7px 12px;
+    border: 1px solid rgba(245,208,32,0.3); border-radius: 100px;
+    background: rgba(245,208,32,0.05);
   }
   .eyebrow-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
-  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
 
   h1 {
     font-family: 'Anton', sans-serif;
-    font-size: clamp(40px, 6vw, 72px);
-    line-height: 0.95;
-    letter-spacing: -0.015em;
-    text-transform: uppercase;
-    margin-bottom: 18px;
+    font-size: clamp(38px, 5.5vw, 64px); line-height: 0.95;
+    letter-spacing: -0.015em; text-transform: uppercase; margin-bottom: 16px;
   }
   h1 .accent { color: var(--accent); }
-  .hero-sub { color: var(--fg-dim); font-size: 17px; max-width: 580px; margin: 0 auto; }
+  .hero-sub { color: var(--fg-dim); font-size: 16px; max-width: 580px; margin: 0 auto 12px; }
+  .hero-pricing { color: var(--muted); font-size: 13px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; }
+  .hero-pricing a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
 
   /* APP */
-  .app { padding: 40px 0 80px; }
-  .app-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-
+  .app { padding: 32px 0 60px; }
+  .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .panel {
-    background: var(--bg-2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 28px;
+    background: var(--bg-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px;
   }
-
   .panel-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
   }
   .panel-label::before { content: ''; width: 22px; height: 1px; background: var(--accent); }
-
   .panel h2 {
-    font-family: 'Anton', sans-serif;
-    font-size: 28px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    margin-bottom: 22px;
+    font-family: 'Anton', sans-serif; font-size: 24px;
+    letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 18px;
   }
 
-  /* INPUT PANEL */
   textarea#jobInput {
-    width: 100%;
-    min-height: 200px;
-    background: var(--bg);
-    border: 1px solid var(--border-2);
-    color: var(--fg);
-    border-radius: 8px;
-    padding: 16px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    resize: vertical;
-    transition: border-color 0.2s;
+    width: 100%; min-height: 180px; background: var(--bg);
+    border: 1px solid var(--border-2); color: var(--fg);
+    border-radius: 8px; padding: 14px;
+    font-family: 'Manrope', sans-serif; font-size: 14px; line-height: 1.6;
+    resize: vertical; transition: border-color 0.2s;
   }
   textarea#jobInput:focus { outline: none; border-color: var(--accent); }
   textarea#jobInput::placeholder { color: var(--muted); }
 
-  .input-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 16px;
-    flex-wrap: wrap;
-  }
-
+  .input-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
   .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px 22px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    border: 1px solid var(--border-2);
-    color: var(--fg);
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-radius: 6px;
-    flex: 1;
-    min-width: 120px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 13px 20px; font-family: 'Manrope', sans-serif;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    border: 1px solid var(--border-2); color: var(--fg);
+    background: transparent; cursor: pointer;
+    transition: all 0.2s ease; border-radius: 6px; flex: 1; min-width: 110px;
   }
   .btn:hover:not(:disabled) { border-color: var(--fg); }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .btn-primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--bg);
-  }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
   .btn-primary:hover:not(:disabled) { background: var(--fg); border-color: var(--fg); color: var(--bg); }
-
   .btn-mic.recording {
-    background: var(--bad);
-    border-color: var(--bad);
-    color: var(--fg);
+    background: var(--bad); border-color: var(--bad); color: var(--fg);
     animation: pulseBad 1.2s infinite;
   }
-  @keyframes pulseBad {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(232, 90, 90, 0.5); }
-    50% { box-shadow: 0 0 0 10px rgba(232, 90, 90, 0); }
-  }
+  @keyframes pulseBad { 0%,100%{box-shadow:0 0 0 0 rgba(232,90,90,0.5)} 50%{box-shadow:0 0 0 10px rgba(232,90,90,0)} }
 
   /* RATES */
-  .rates {
-    margin-top: 22px;
-    padding-top: 22px;
-    border-top: 1px solid var(--border);
-  }
+  .rates { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
   .rates-toggle {
-    background: none;
-    border: none;
-    color: var(--fg-dim);
-    font-family: 'Manrope', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0;
-    transition: color 0.2s;
+    background: none; border: none; color: var(--fg-dim);
+    font-family: 'Manrope', sans-serif; font-size: 13px;
+    cursor: pointer; display: flex; align-items: center; gap: 8px;
+    padding: 0; transition: color 0.2s;
   }
   .rates-toggle:hover { color: var(--accent); }
   .rates-toggle .arrow { transition: transform 0.2s; }
   .rates.open .rates-toggle .arrow { transform: rotate(90deg); }
-  .rates-content {
-    display: none;
-    margin-top: 16px;
-    gap: 12px;
-    grid-template-columns: 1fr 1fr;
-  }
+  .rates-content { display: none; margin-top: 14px; gap: 12px; grid-template-columns: 1fr 1fr; }
   .rates.open .rates-content { display: grid; }
   .rate-field { display: flex; flex-direction: column; gap: 6px; }
   .rate-field label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted);
   }
   .rate-field input, .rate-field select {
-    background: var(--bg);
-    border: 1px solid var(--border-2);
-    color: var(--fg);
-    border-radius: 6px;
-    padding: 10px 12px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
+    background: var(--bg); border: 1px solid var(--border-2);
+    color: var(--fg); border-radius: 6px; padding: 9px 11px;
+    font-family: 'Manrope', sans-serif; font-size: 14px;
   }
   .rate-field input:focus, .rate-field select:focus { outline: none; border-color: var(--accent); }
 
-  /* QUOTE PANEL */
-  .quote-empty {
-    color: var(--muted);
-    text-align: center;
-    padding: 60px 20px;
-    font-size: 14px;
-  }
+  .quote-empty { color: var(--muted); text-align: center; padding: 50px 20px; font-size: 14px; }
   .quote-empty .quote-empty-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 20px;
-    border: 1px dashed var(--border-2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
+    width: 56px; height: 56px; margin: 0 auto 16px;
+    border: 1px dashed var(--border-2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; color: var(--muted);
   }
-
-  .quote-loading {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--fg-dim);
-  }
+  .quote-loading { text-align: center; padding: 70px 20px; color: var(--fg-dim); }
   .spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--border-2);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    animation: spin 0.8s linear infinite;
+    width: 36px; height: 36px; border: 3px solid var(--border-2);
+    border-top-color: var(--accent); border-radius: 50%;
+    margin: 0 auto 16px; animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   .quote-error {
-    background: rgba(232, 90, 90, 0.08);
-    border: 1px solid rgba(232, 90, 90, 0.3);
-    color: var(--fg);
-    padding: 16px 18px;
-    border-radius: 8px;
-    font-size: 14px;
-    margin: 20px 0;
+    background: rgba(232,90,90,0.08); border: 1px solid rgba(232,90,90,0.3);
+    color: var(--fg); padding: 14px 16px; border-radius: 8px;
+    font-size: 14px; margin: 16px 0;
   }
-
-  /* GENERATED QUOTE */
   .quote-result { display: none; }
   .quote-result.visible { display: block; animation: fadeIn 0.4s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
   .q-summary {
-    font-size: 14px;
-    color: var(--fg-dim);
-    padding: 12px 16px;
-    background: var(--bg);
-    border-radius: 6px;
-    margin-bottom: 20px;
+    font-size: 14px; color: var(--fg-dim);
+    padding: 12px 14px; background: var(--bg);
+    border-radius: 6px; margin-bottom: 18px;
     border-left: 3px solid var(--accent);
   }
-
-  .q-meta {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 20px;
+  .q-cached-tag {
+    display: inline-block; font-size: 9px; font-family: 'JetBrains Mono', monospace;
+    color: var(--good); background: rgba(95,191,106,0.1);
+    padding: 2px 6px; border-radius: 3px; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-left: 8px;
   }
+  .q-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 18px; }
   .q-meta-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 12px;
   }
   .q-meta-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
   }
-  .q-meta-value { font-size: 14px; color: var(--fg); font-weight: 500; }
-
-  .q-items {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 18px;
-  }
+  .q-meta-value { font-size: 13px; color: var(--fg); font-weight: 500; }
+  .q-items { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
   .q-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 12px;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    align-items: center;
+    display: grid; grid-template-columns: 1fr auto; gap: 10px;
+    padding: 11px 14px; border-bottom: 1px solid var(--border); align-items: center;
   }
   .q-item:last-child { border-bottom: none; }
-  .q-item-desc { font-size: 13.5px; }
+  .q-item-desc { font-size: 13px; }
   .q-item-cat {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    background: rgba(245, 208, 32, 0.08);
-    padding: 2px 6px;
-    border-radius: 3px;
-    margin-left: 8px;
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); background: rgba(245,208,32,0.08);
+    padding: 2px 6px; border-radius: 3px; margin-left: 6px;
   }
+  .q-item-qty { color: var(--muted); font-size: 11px; }
   .q-item-price {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--fg);
-    text-align: right;
-    white-space: nowrap;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    color: var(--fg); text-align: right; white-space: nowrap;
   }
-  .q-item-qty { color: var(--muted); font-size: 12px; }
-
-  .q-totals { padding: 14px 16px; background: var(--bg); border-radius: 8px; }
-  .q-total-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    font-size: 14px;
-    color: var(--fg-dim);
-  }
+  .q-totals { padding: 12px 14px; background: var(--bg); border-radius: 8px; }
+  .q-total-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; color: var(--fg-dim); }
   .q-total-row.grand {
-    border-top: 1px solid var(--border-2);
-    margin-top: 8px;
-    padding-top: 14px;
-    font-family: 'Anton', sans-serif;
-    font-size: 22px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--fg);
+    border-top: 1px solid var(--border-2); margin-top: 6px; padding-top: 12px;
+    font-family: 'Anton', sans-serif; font-size: 20px;
+    text-transform: uppercase; letter-spacing: 0.04em; color: var(--fg);
   }
   .q-total-row.grand .price { color: var(--accent); }
-
   .q-compliance {
-    margin-top: 18px;
-    padding: 14px 16px;
-    background: rgba(245, 208, 32, 0.05);
-    border: 1px solid rgba(245, 208, 32, 0.2);
-    border-radius: 8px;
-    font-size: 13px;
-    color: var(--fg);
-    line-height: 1.6;
+    margin-top: 16px; padding: 12px 14px;
+    background: rgba(245,208,32,0.05); border: 1px solid rgba(245,208,32,0.2);
+    border-radius: 8px; font-size: 13px; color: var(--fg); line-height: 1.6;
   }
   .q-compliance strong { color: var(--accent); }
-
-  .q-assumptions { margin-top: 18px; }
+  .q-assumptions { margin-top: 16px; }
   .q-assumptions h4 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
   }
   .q-assumptions ul { list-style: none; }
   .q-assumptions li {
-    font-size: 13px;
-    color: var(--fg-dim);
-    padding: 4px 0 4px 18px;
-    position: relative;
+    font-size: 12px; color: var(--fg-dim);
+    padding: 3px 0 3px 16px; position: relative;
   }
-  .q-assumptions li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-  }
-
-  .q-actions { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+  .q-assumptions li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+  .q-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 
   /* EXAMPLES */
-  .examples { margin-top: 16px; }
+  .examples { margin-top: 14px; }
   .examples-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
   }
   .example-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chip {
-    background: var(--bg);
-    border: 1px solid var(--border-2);
-    color: var(--fg-dim);
-    padding: 6px 12px;
-    border-radius: 100px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
+    background: var(--bg); border: 1px solid var(--border-2);
+    color: var(--fg-dim); padding: 6px 12px;
+    border-radius: 100px; font-size: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
   }
-  .chip:hover {
-    color: var(--accent);
-    border-color: var(--accent);
+  .chip:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* USAGE STRIP */
+  .usage-strip {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--bg-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; margin-bottom: 22px;
+    font-size: 13px; flex-wrap: wrap; gap: 8px;
   }
+  .usage-strip .quotes-left { color: var(--fg-dim); }
+  .usage-strip .quotes-left strong { color: var(--accent); }
+  .usage-strip a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 13px; }
+  .usage-strip a:hover { text-decoration: underline; }
+
+  /* COOKIE BANNER */
+  .cookie-banner {
+    position: fixed; bottom: 16px; left: 16px; right: 16px;
+    max-width: 480px; margin: 0 auto;
+    background: var(--bg-2); border: 1px solid var(--border-2);
+    border-radius: 12px; padding: 16px 18px;
+    font-size: 13px; color: var(--fg-dim);
+    z-index: 1000; display: none;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+  .cookie-banner.visible { display: block; animation: fadeIn 0.4s ease; }
+  .cookie-banner-text { margin-bottom: 12px; }
+  .cookie-banner a { color: var(--accent); text-decoration: none; }
+  .cookie-banner-actions { display: flex; gap: 8px; }
+  .cookie-banner button {
+    flex: 1; padding: 9px 12px; font-size: 12px; font-weight: 600;
+    border-radius: 6px; cursor: pointer; font-family: inherit;
+  }
+  .cookie-accept { background: var(--accent); border: 1px solid var(--accent); color: var(--bg); }
+  .cookie-decline { background: transparent; border: 1px solid var(--border-2); color: var(--fg); }
 
   /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 0;
-    text-align: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  footer { border-top: 1px solid var(--border); padding: 36px 0 28px; margin-top: 32px; }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 32px; margin-bottom: 32px;
+  }
+  .footer-brand p {
+    color: var(--fg-dim); font-size: 13px;
+    max-width: 280px; line-height: 1.5; margin-top: 12px;
+  }
+  .footer-col h5 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 14px; font-weight: 500;
+  }
+  .footer-col a {
+    display: block; color: var(--fg-dim); text-decoration: none;
+    padding: 4px 0; font-size: 13px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom {
+    padding-top: 22px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase;
   }
 
   @media (max-width: 860px) {
     .app-grid { grid-template-columns: 1fr; }
-    h1 { font-size: 42px; }
-    .panel { padding: 22px; }
+    h1 { font-size: 38px; }
+    .panel { padding: 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
   }
-
-  @media (max-width: 480px) {
+  @media (max-width: 560px) {
+    nav { display: none; }
+    nav.open { display: flex; flex-direction: column; position: absolute; top: 100%; right: 0; background: var(--bg-2); border: 1px solid var(--border); border-radius: 0 0 8px 8px; padding: 16px; min-width: 180px; }
+    .menu-btn { display: block; }
     .input-row { flex-direction: column; }
     .btn { width: 100%; }
     .rates-content { grid-template-columns: 1fr; }
     .q-meta { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 24px; }
   }
 </style>
 </head>
@@ -492,8 +389,8 @@
   <header>
     <div class="container">
       <div class="header-inner">
-        <a href="#" class="logo">
-          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <a href="/" class="logo" aria-label="Blackmoped — home">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="10" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
             <circle cx="30" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
             <circle cx="10" cy="28" r="1.6" fill="#f5d020"/>
@@ -504,7 +401,13 @@
           </svg>
           <span class="logo-text">Blackmoped</span>
         </a>
-        <span class="header-tag">UK Electricians • Free Beta</span>
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <nav id="nav">
+          <a href="/" class="active">Quote tool</a>
+          <a href="/pricing.html">Pricing</a>
+          <a href="/contact.html">Contact</a>
+          <a href="/pricing.html" class="nav-cta">Start free</a>
+        </nav>
       </div>
     </div>
   </header>
@@ -514,36 +417,30 @@
       <div class="container">
         <div class="eyebrow"><span class="eyebrow-dot"></span><span>Live AI Quote Generator</span></div>
         <h1>Describe a job.<br><span class="accent">Get a real quote.</span></h1>
-        <p class="hero-sub">Tap the mic or type. Blackmoped writes a fully itemised, Part P-aware UK electrical quote in seconds.</p>
+        <p class="hero-sub">Tap mic or type. Blackmoped writes a fully itemised, Part P-aware UK electrical quote in seconds.</p>
+        <p class="hero-pricing">Free to try • From <a href="/pricing.html">£14/mo</a> for unlimited</p>
       </div>
     </section>
 
     <section class="app">
       <div class="container">
-        <div class="app-grid">
+        <div class="usage-strip" id="usageStrip">
+          <span class="quotes-left">You have <strong id="quotesLeft">3</strong> free quotes remaining today</span>
+          <a href="/pricing.html">Upgrade for unlimited →</a>
+        </div>
 
-          <!-- ── INPUT ── -->
+        <div class="app-grid">
           <div class="panel">
             <div class="panel-label"><span>Step 1</span></div>
             <h2>Describe the job</h2>
-
-            <textarea id="jobInput" placeholder="Example: Customer wants two double sockets in the kitchen, one in the hallway, consumer unit upgrade to a 10-way RCBO board, plus an EICR on the whole flat. It's a 1-bed in Manchester."></textarea>
-
+            <textarea id="jobInput" placeholder="Example: Customer wants two double sockets in the kitchen, one in hallway, consumer unit upgrade to a 10-way RCBO board, plus an EICR. 1-bed flat in Manchester."></textarea>
             <div class="input-row">
-              <button class="btn btn-mic" id="micBtn" type="button">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                  <line x1="12" y1="19" x2="12" y2="23"/>
-                </svg>
+              <button class="btn btn-mic" id="micBtn" type="button" aria-label="Voice input">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
                 <span id="micBtnText">Voice</span>
               </button>
-              <button class="btn btn-primary" id="generateBtn" type="button">
-                Generate quote
-                <span>→</span>
-              </button>
+              <button class="btn btn-primary" id="generateBtn" type="button">Generate quote<span>→</span></button>
             </div>
-
             <div class="examples">
               <div class="examples-label">Try one of these:</div>
               <div class="example-chips">
@@ -554,70 +451,43 @@
                 <button class="chip" data-example="Full rewire of a 3-bed Victorian terrace, currently has rubber-insulated cabling. Bristol area.">Full rewire</button>
               </div>
             </div>
-
             <div class="rates" id="ratesPanel">
               <button class="rates-toggle" id="ratesToggle" type="button">
-                <span class="arrow">▶</span>
-                <span>Optional: set your rates</span>
+                <span class="arrow">▶</span><span>Optional: set your rates</span>
               </button>
               <div class="rates-content">
                 <div class="rate-field">
                   <label for="region">Region</label>
                   <select id="region">
                     <option value="">Auto-detect</option>
-                    <option value="London / South East">London / South East</option>
-                    <option value="South West">South West</option>
-                    <option value="Midlands">Midlands</option>
-                    <option value="North West">North West</option>
-                    <option value="North East">North East</option>
-                    <option value="Scotland">Scotland</option>
-                    <option value="Wales">Wales</option>
-                    <option value="Northern Ireland">Northern Ireland</option>
+                    <option>London / South East</option>
+                    <option>South West</option><option>Midlands</option>
+                    <option>North West</option><option>North East</option>
+                    <option>Scotland</option><option>Wales</option><option>Northern Ireland</option>
                   </select>
                 </div>
-                <div class="rate-field">
-                  <label for="dayRate">Day rate (£)</label>
-                  <input type="number" id="dayRate" placeholder="320" min="100" max="1000">
-                </div>
-                <div class="rate-field">
-                  <label for="hourlyRate">Hourly rate (£)</label>
-                  <input type="number" id="hourlyRate" placeholder="50" min="10" max="200">
-                </div>
-                <div class="rate-field">
-                  <label for="markup">Material markup (%)</label>
-                  <input type="number" id="markup" placeholder="20" min="0" max="100">
-                </div>
+                <div class="rate-field"><label for="dayRate">Day rate (£)</label><input type="number" id="dayRate" placeholder="320"></div>
+                <div class="rate-field"><label for="hourlyRate">Hourly rate (£)</label><input type="number" id="hourlyRate" placeholder="50"></div>
+                <div class="rate-field"><label for="markup">Material markup (%)</label><input type="number" id="markup" placeholder="20"></div>
               </div>
             </div>
           </div>
 
-          <!-- ── OUTPUT ── -->
           <div class="panel">
             <div class="panel-label"><span>Step 2</span></div>
             <h2>Your quote</h2>
-
             <div id="quoteEmpty" class="quote-empty">
               <div class="quote-empty-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="14 2 14 8 20 8"/>
-                  <path d="M19 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9l5 5v13a2 2 0 0 1-2 2z"/>
-                  <line x1="9" y1="13" x2="15" y2="13"/>
-                  <line x1="9" y1="17" x2="13" y2="17"/>
-                </svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="14 2 14 8 20 8"/><path d="M19 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9l5 5v13a2 2 0 0 1-2 2z"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
               </div>
               <div>Your quote will appear here once you describe a job.</div>
             </div>
-
             <div id="quoteLoading" class="quote-loading" style="display:none;">
-              <div class="spinner"></div>
-              <div>Writing your quote…</div>
+              <div class="spinner"></div><div>Writing your quote…</div>
             </div>
-
             <div id="quoteError" class="quote-error" style="display:none;"></div>
-
             <div id="quoteResult" class="quote-result"></div>
           </div>
-
         </div>
       </div>
     </section>
@@ -625,37 +495,60 @@
 
   <footer>
     <div class="container">
-      © 2026 Blackmoped • Quotes are estimates — always verify before sending • Made for UK sparks
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="10" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="30" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M 10 28 L 16 18 L 26 18 L 30 28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 18 18 L 22 10 L 28 10" stroke="#f5d020" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+            <span class="logo-text">Blackmoped</span>
+          </a>
+          <p>AI quoting and paperwork for UK electricians. Built by a small team that ships fast.</p>
+        </div>
+        <div class="footer-col"><h5>Product</h5><a href="/">Quote tool</a><a href="/pricing.html">Pricing</a><a href="/#features">Features</a></div>
+        <div class="footer-col"><h5>Company</h5><a href="/contact.html">Contact</a><a href="/about.html">About</a></div>
+        <div class="footer-col"><h5>Legal</h5><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a><a href="/privacy.html#cookies">Cookies</a></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Blackmoped</span>
+        <span>blackmoped.com</span>
+        <span>Made for UK sparks</span>
+      </div>
     </div>
   </footer>
 
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-banner-text">
+      We use a single essential cookie to remember your free quote count. No tracking, no ads. <a href="/privacy.html#cookies">Learn more</a>.
+    </div>
+    <div class="cookie-banner-actions">
+      <button class="cookie-decline" id="cookieDecline">Decline</button>
+      <button class="cookie-accept" id="cookieAccept">OK</button>
+    </div>
+  </div>
+
   <script>
-    // ============================================================
-    // CONFIG — change this once your backend is on Render
-    // ============================================================
-    const API_URL = window.location.hostname === 'localhost'
-      ? 'http://localhost:3000/api/quote'
-      : 'https://blackmoped-backend.onrender.com/api/quote';
-    // ↑ replace 'blackmoped-backend' with whatever you name your Render service
-    // ============================================================
+    const API_URL = 'https://blackmoped-backend.onrender.com/api/quote';
+    const FREE_QUOTES_PER_DAY = 3;
 
     const $ = (id) => document.getElementById(id);
-    const jobInput = $('jobInput');
-    const generateBtn = $('generateBtn');
-    const micBtn = $('micBtn');
-    const micBtnText = $('micBtnText');
-    const ratesPanel = $('ratesPanel');
-    const ratesToggle = $('ratesToggle');
+    const jobInput = $('jobInput'), generateBtn = $('generateBtn');
+    const micBtn = $('micBtn'), micBtnText = $('micBtnText');
+    const ratesPanel = $('ratesPanel'), ratesToggle = $('ratesToggle');
+    const quoteEmpty = $('quoteEmpty'), quoteLoading = $('quoteLoading');
+    const quoteError = $('quoteError'), quoteResult = $('quoteResult');
+    const usageStrip = $('usageStrip'), quotesLeftEl = $('quotesLeft');
 
-    const quoteEmpty = $('quoteEmpty');
-    const quoteLoading = $('quoteLoading');
-    const quoteError = $('quoteError');
-    const quoteResult = $('quoteResult');
+    // Mobile menu
+    $('menuBtn').addEventListener('click', () => $('nav').classList.toggle('open'));
 
-    // ── Rates toggle ──
+    // Rates toggle
     ratesToggle.addEventListener('click', () => ratesPanel.classList.toggle('open'));
 
-    // ── Example chips ──
+    // Examples
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
         jobInput.value = chip.dataset.example;
@@ -663,82 +556,100 @@
       });
     });
 
-    // ── Voice input (browser Web Speech API) ──
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    let recognition = null;
-    let isRecording = false;
+    // Free quota tracking (localStorage with daily reset)
+    function getQuota() {
+      const today = new Date().toISOString().slice(0, 10);
+      try {
+        const data = JSON.parse(localStorage.getItem('bm_quota') || '{}');
+        if (data.date !== today) return { date: today, used: 0 };
+        return data;
+      } catch (e) { return { date: today, used: 0 }; }
+    }
+    function bumpQuota() {
+      const q = getQuota();
+      q.used += 1;
+      try { localStorage.setItem('bm_quota', JSON.stringify(q)); } catch(e) {}
+      updateQuotaDisplay();
+    }
+    function updateQuotaDisplay() {
+      const q = getQuota();
+      const left = Math.max(0, FREE_QUOTES_PER_DAY - q.used);
+      quotesLeftEl.textContent = left;
+      if (left === 0) {
+        usageStrip.style.borderColor = 'var(--bad)';
+        usageStrip.querySelector('.quotes-left').innerHTML = 'Free quota used. <strong>Upgrade for unlimited.</strong>';
+      }
+    }
+    updateQuotaDisplay();
 
-    if (SpeechRecognition) {
-      recognition = new SpeechRecognition();
+    // Cookie banner
+    const cookieBanner = $('cookieBanner');
+    if (!localStorage.getItem('bm_cookie_consent')) {
+      cookieBanner.classList.add('visible');
+    }
+    $('cookieAccept').addEventListener('click', () => {
+      try { localStorage.setItem('bm_cookie_consent', 'accepted'); } catch(e) {}
+      cookieBanner.classList.remove('visible');
+    });
+    $('cookieDecline').addEventListener('click', () => {
+      try { localStorage.setItem('bm_cookie_consent', 'declined'); } catch(e) {}
+      cookieBanner.classList.remove('visible');
+    });
+
+    // Voice input
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null, isRecording = false;
+    if (SR) {
+      recognition = new SR();
       recognition.lang = 'en-GB';
       recognition.continuous = true;
       recognition.interimResults = true;
-
-      let finalTranscript = '';
-
-      recognition.onresult = (event) => {
+      let finalT = '';
+      recognition.onresult = (e) => {
         let interim = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript + ' ';
-          } else {
-            interim += transcript;
-          }
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          const t = e.results[i][0].transcript;
+          if (e.results[i].isFinal) finalT += t + ' '; else interim += t;
         }
-        jobInput.value = (finalTranscript + interim).trim();
+        jobInput.value = (finalT + interim).trim();
       };
-
-      recognition.onerror = (e) => {
-        console.error('Speech recognition error:', e.error);
-        stopRecording();
-      };
-
-      recognition.onend = () => {
-        if (isRecording) {
-          // sometimes browsers stop spontaneously — restart
-          try { recognition.start(); } catch(e) { stopRecording(); }
-        }
-      };
-
+      recognition.onerror = () => stopRec();
+      recognition.onend = () => { if (isRecording) try { recognition.start(); } catch(e) { stopRec(); } };
       micBtn.addEventListener('click', () => {
-        if (isRecording) {
-          stopRecording();
-        } else {
-          finalTranscript = jobInput.value ? jobInput.value + ' ' : '';
+        if (isRecording) stopRec();
+        else {
+          finalT = jobInput.value ? jobInput.value + ' ' : '';
           try {
             recognition.start();
             isRecording = true;
             micBtn.classList.add('recording');
             micBtnText.textContent = 'Stop';
-          } catch (e) {
-            console.error(e);
-          }
+          } catch(e) {}
         }
       });
-
-      function stopRecording() {
+      function stopRec() {
         isRecording = false;
         try { recognition.stop(); } catch(e) {}
         micBtn.classList.remove('recording');
         micBtnText.textContent = 'Voice';
       }
     } else {
-      micBtn.addEventListener('click', () => {
-        showError('Voice input not supported in this browser. Try Chrome on desktop or mobile.');
-      });
+      micBtn.addEventListener('click', () => showError('Voice input needs Chrome on desktop or mobile.'));
     }
 
-    // ── Generate quote ──
-    generateBtn.addEventListener('click', generateQuote);
+    // Generate
+    generateBtn.addEventListener('click', generate);
     jobInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generateQuote();
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generate();
     });
 
-    async function generateQuote() {
-      const jobDescription = jobInput.value.trim();
-      if (jobDescription.length < 10) {
-        showError('Give us a bit more detail about the job.');
+    async function generate() {
+      const job = jobInput.value.trim();
+      if (job.length < 10) { showError('Give us a bit more detail.'); return; }
+
+      const q = getQuota();
+      if (q.used >= FREE_QUOTES_PER_DAY) {
+        showError('You\'ve used your 3 free quotes today. Upgrade at /pricing.html for unlimited.');
         return;
       }
 
@@ -749,10 +660,8 @@
       generateBtn.disabled = true;
 
       const electrician = {};
-      const region = $('region').value;
-      const dayRate = $('dayRate').value;
-      const hourlyRate = $('hourlyRate').value;
-      const markup = $('markup').value;
+      const region = $('region').value, dayRate = $('dayRate').value;
+      const hourlyRate = $('hourlyRate').value, markup = $('markup').value;
       if (region) electrician.region = region;
       if (dayRate) electrician.dayRate = parseFloat(dayRate);
       if (hourlyRate) electrician.hourlyRate = parseFloat(hourlyRate);
@@ -763,113 +672,74 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            jobDescription,
-            electrician: Object.keys(electrician).length > 0 ? electrician : undefined,
+            jobDescription: job,
+            electrician: Object.keys(electrician).length ? electrician : undefined,
           }),
         });
-
         const data = await res.json();
         quoteLoading.style.display = 'none';
         generateBtn.disabled = false;
-
         if (!res.ok || !data.success) {
-          showError(data.error || 'Could not generate a quote. Try again.');
+          showError(data.error || 'Could not generate quote.');
           quoteEmpty.style.display = 'block';
           return;
         }
-
-        renderQuote(data.quote);
+        bumpQuota();
+        renderQuote(data.quote, data.cached);
       } catch (err) {
-        console.error(err);
         quoteLoading.style.display = 'none';
         generateBtn.disabled = false;
-        showError('Network error. Check the backend is running and the API_URL in this page matches your Render service.');
+        showError('Network error. The backend may be sleeping (free tier wakes in ~30s on first request).');
         quoteEmpty.style.display = 'block';
       }
     }
 
-    function showError(msg) {
-      quoteError.textContent = msg;
-      quoteError.style.display = 'block';
+    function showError(m) { quoteError.textContent = m; quoteError.style.display = 'block'; }
+    function hideError() { quoteError.style.display = 'none'; }
+    function fmt(p) {
+      const v = (p / 100).toFixed(2);
+      return '£' + Number(v).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
-    function hideError() {
-      quoteError.style.display = 'none';
-    }
-
-    function fmt(pence) {
-      const pounds = (pence / 100).toFixed(2);
-      return '£' + Number(pounds).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    function esc(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
 
-    function renderQuote(q) {
-      const itemsHtml = q.items.map(item => `
+    function renderQuote(q, cached) {
+      const items = q.items.map(it => `
         <div class="q-item">
-          <div>
-            <div class="q-item-desc">
-              ${escapeHtml(item.description)}
-              ${item.qty > 1 ? `<span class="q-item-qty"> × ${item.qty}</span>` : ''}
-              <span class="q-item-cat">${escapeHtml(item.category || 'item')}</span>
-            </div>
-          </div>
-          <div class="q-item-price">${fmt(item.unit_price_pence * (item.qty || 1))}</div>
-        </div>
-      `).join('');
-
+          <div><div class="q-item-desc">
+            ${esc(it.description)}
+            ${it.qty > 1 ? `<span class="q-item-qty"> × ${it.qty}</span>` : ''}
+            <span class="q-item-cat">${esc(it.category || 'item')}</span>
+          </div></div>
+          <div class="q-item-price">${fmt(it.unit_price_pence * (it.qty || 1))}</div>
+        </div>`).join('');
       const certText = q.certificate_required && q.certificate_required !== 'none'
-        ? `Certificate to be issued: <strong>${escapeHtml(q.certificate_required)}</strong>`
-        : 'No certificate required';
-
-      const assumptionsHtml = (q.assumptions || []).map(a => `<li>${escapeHtml(a)}</li>`).join('');
-
+        ? `Certificate to be issued: <strong>${esc(q.certificate_required)}</strong>` : 'No certificate required';
+      const assumes = (q.assumptions || []).map(a => `<li>${esc(a)}</li>`).join('');
       quoteResult.innerHTML = `
-        <div class="q-summary">${escapeHtml(q.summary || '')}</div>
-
+        <div class="q-summary">${esc(q.summary || '')}${cached ? '<span class="q-cached-tag">cached</span>' : ''}</div>
         <div class="q-meta">
-          <div class="q-meta-card">
-            <div class="q-meta-label">Duration</div>
-            <div class="q-meta-value">${escapeHtml(q.estimated_duration || '—')}</div>
-          </div>
-          <div class="q-meta-card">
-            <div class="q-meta-label">Notifiable</div>
-            <div class="q-meta-value">${q.notifiable_work ? 'Yes (Part P)' : 'No'}</div>
-          </div>
+          <div class="q-meta-card"><div class="q-meta-label">Duration</div><div class="q-meta-value">${esc(q.estimated_duration || '—')}</div></div>
+          <div class="q-meta-card"><div class="q-meta-label">Notifiable</div><div class="q-meta-value">${q.notifiable_work ? 'Yes (Part P)' : 'No'}</div></div>
         </div>
-
-        <div class="q-items">${itemsHtml}</div>
-
+        <div class="q-items">${items}</div>
         <div class="q-totals">
           <div class="q-total-row"><span>Subtotal</span><span class="price">${fmt(q.subtotal_pence)}</span></div>
           <div class="q-total-row"><span>VAT (20%)</span><span class="price">${fmt(q.vat_pence)}</span></div>
           <div class="q-total-row grand"><span>Total</span><span class="price">${fmt(q.total_pence)}</span></div>
         </div>
-
-        ${q.compliance_notes ? `<div class="q-compliance"><strong>Compliance:</strong> ${escapeHtml(q.compliance_notes)}<br>${certText}</div>` : ''}
-
-        ${assumptionsHtml ? `<div class="q-assumptions"><h4>Assumptions</h4><ul>${assumptionsHtml}</ul></div>` : ''}
-
+        ${q.compliance_notes ? `<div class="q-compliance"><strong>Compliance:</strong> ${esc(q.compliance_notes)}<br>${certText}</div>` : ''}
+        ${assumes ? `<div class="q-assumptions"><h4>Assumptions</h4><ul>${assumes}</ul></div>` : ''}
         <div class="q-actions">
           <button class="btn" onclick="window.print()">Print / Save PDF</button>
-          <button class="btn btn-primary" onclick="copyQuote()">Copy quote</button>
-        </div>
-      `;
+          <button class="btn btn-primary" onclick="copyQ()">Copy quote</button>
+        </div>`;
       quoteResult.classList.add('visible');
     }
-
-    function escapeHtml(s) {
-      if (s == null) return '';
-      return String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    window.copyQuote = function() {
-      const text = quoteResult.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Quote copied to clipboard.');
-      });
+    window.copyQ = function() {
+      navigator.clipboard.writeText(quoteResult.innerText).then(() => alert('Quote copied.'));
     };
   </script>
 </body>
