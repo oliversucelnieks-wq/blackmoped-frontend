@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test</title></head>
+<body>Hello World</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — Blackmoped | From £14/mo for UK Electricians</title>
+<meta name="description" content="Simple pricing for UK electricians. Free trial, then £14 Solo, £29 Pro (unlimited), £69 Crew. No setup fees, cancel anytime.">
+<link rel="canonical" href="https://blackmoped.com/pricing.html">
+<meta property="og:title" content="Pricing — Blackmoped">
+<meta property="og:description" content="From £14/mo. Unlimited AI quotes for UK electricians.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blackmoped.com/pricing.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0a0a;--bg-2:#0f0f0f;--fg:#f5f0e8;--fg-dim:#a8a39b;--muted:#6a6a6a;
+    --accent:#f5d020;--border:#1f1f1f;--border-2:#2a2a2a;--good:#5fbf6a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: 'Manrope', system-ui, sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; background-image: radial-gradient(circle at 12% -5%, rgba(245,208,32,0.06), transparent 45%), radial-gradient(circle at 95% 35%, rgba(245,208,32,0.03), transparent 50%); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 3; }
+  header { padding: 18px 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); z-index: 100; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--fg); }
+  .logo svg { width: 36px; height: 36px; }
+  .logo-text { font-family: 'Anton', sans-serif; font-size: 21px; letter-spacing: 0.07em; text-transform: uppercase; }
+  nav { display: flex; gap: 22px; align-items: center; }
+  nav a { color: var(--fg-dim); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+  nav a:hover, nav a.active { color: var(--accent); }
+
+  .hero { padding: 60px 0 40px; text-align: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; padding: 7px 12px; border: 1px solid rgba(245,208,32,0.3); border-radius: 100px; background: rgba(245,208,32,0.05); }
+  h1 { font-family: 'Anton', sans-serif; font-size: clamp(40px, 6vw, 68px); line-height: 0.95; letter-spacing: -0.015em; text-transform: uppercase; margin-bottom: 16px; }
+  h1 .accent { color: var(--accent); }
+  .hero-sub { color: var(--fg-dim); font-size: 17px; max-width: 580px; margin: 0 auto; }
+
+  .pricing { padding: 30px 0 70px; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; }
+  .price-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 26px 22px; display: flex; flex-direction: column; transition: all 0.25s; position: relative; }
+  .price-card:hover { border-color: var(--border-2); transform: translateY(-2px); }
+  .price-card.featured { border-color: var(--accent); background: linear-gradient(180deg, rgba(245,208,32,0.05), transparent 50%), var(--bg-2); }
+  .price-tag { position: absolute; top: -10px; right: 18px; background: var(--accent); color: var(--bg); padding: 4px 10px; border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+  .price-name { font-family: 'Anton', sans-serif; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 6px; }
+  .price-amount { font-family: 'Anton', sans-serif; font-size: 44px; line-height: 1; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .price-amount .small { font-size: 14px; color: var(--fg-dim); margin-left: 4px; letter-spacing: 0; }
+  .price-tagline { font-size: 12px; color: var(--fg-dim); margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+  .price-list { list-style: none; margin-bottom: 22px; flex: 1; }
+  .price-list li { font-size: 12.5px; color: var(--fg); padding: 5px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+  .price-list li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+  .price-cta { display: block; text-align: center; padding: 12px; border: 1px solid var(--border-2); color: var(--fg); text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 13px; transition: all 0.2s; cursor: pointer; background: transparent; font-family: inherit; width: 100%; }
+  .price-cta:hover { border-color: var(--fg); }
+  .price-card.featured .price-cta { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .price-card.featured .price-cta:hover { background: var(--fg); border-color: var(--fg); }
+
+  .compare-section { padding: 40px 0; border-top: 1px solid var(--border); }
+  .compare-section h2 { font-family: 'Anton', sans-serif; font-size: 32px; letter-spacing: -0.01em; text-transform: uppercase; margin-bottom: 8px; }
+  .compare-section p.lead { color: var(--fg-dim); margin-bottom: 28px; max-width: 600px; }
+  .compare { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .compare-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; border-bottom: 1px solid var(--border); }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-cell { padding: 14px 18px; font-size: 13px; border-right: 1px solid var(--border); display: flex; align-items: center; }
+  .compare-cell:last-child { border-right: none; }
+  .compare-row.head .compare-cell { font-family: 'Anton', sans-serif; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--bg-2); color: var(--fg-dim); }
+  .compare-row.head .compare-cell.you { color: var(--accent); background: rgba(245,208,32,0.06); }
+  .compare-cell.label { color: var(--fg-dim); font-weight: 500; }
+  .compare-cell.you { background: rgba(245,208,32,0.04); color: var(--fg); font-weight: 600; }
+  .x { color: var(--muted); }
+  .check { color: var(--good); font-weight: 700; }
+
+  .faq-section { padding: 40px 0; border-top: 1px solid var(--border); }
+  .faq { border-bottom: 1px solid var(--border); }
+  .faq summary { padding: 20px 0; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; font-family: 'Anton', sans-serif; font-size: 18px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:hover { color: var(--accent); }
+  .faq-toggle { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 22px; transition: transform 0.25s; }
+  .faq[open] .faq-toggle { transform: rotate(45deg); }
+  .faq p { padding: 0 0 20px; color: var(--fg-dim); font-size: 14px; line-height: 1.7; max-width: 800px; }
+
+  footer { border-top: 1px solid var(--border); padding: 36px 0 28px; margin-top: 40px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+  .footer-brand p { color: var(--fg-dim); font-size: 13px; max-width: 280px; line-height: 1.5; margin-top: 12px; }
+  .footer-col h5 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; font-weight: 500; }
+  .footer-col a { display: block; color: var(--fg-dim); text-decoration: none; padding: 4px 0; font-size: 13px; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { padding-top: 22px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; }
+
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+  .modal-backdrop.visible { display: flex; }
+  .modal { background: var(--bg-2); border: 1px solid var(--border-2); border-radius: 12px; padding: 28px; max-width: 480px; width: 100%; }
+  .modal h3 { font-family: 'Anton', sans-serif; font-size: 22px; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 12px; }
+  .modal p { color: var(--fg-dim); font-size: 14px; margin-bottom: 16px; line-height: 1.6; }
+  .modal a { color: var(--accent); text-decoration: none; }
+  .modal-close { display: block; width: 100%; padding: 12px; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 14px; }
+
+  @media (max-width: 860px) {
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .compare-row { grid-template-columns: 1.2fr 1fr 1fr 1fr; }
+    .compare-cell { padding: 12px 12px; font-size: 12px; }
+  }
+  @media (max-width: 560px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+    nav a:not(.active):not(.nav-cta) { display: none; }
+    .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    .compare-row { grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="30" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="10" cy="28" r="1.6" fill="#f5d020"/>
+            <circle cx="30" cy="28" r="1.6" fill="#f5d020"/>
+            <path d="M 10 28 L 16 18 L 26 18 L 30 28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 18 18 L 22 10 L 28 10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="20" y1="14" x2="26" y2="14" stroke="#f5d020" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="logo-text">Blackmoped</span>
+        </a>
+        <nav>
+          <a href="/">Quote tool</a>
+          <a href="/pricing.html" class="active">Pricing</a>
+          <a href="/contact.html">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow"><span>UK Electricians</span></div>
+        <h1>Simple pricing.<br><span class="accent">Like quoting should be.</span></h1>
+        <p class="hero-sub">Try free, then pick a plan. No setup fees, no contracts, no per-quote charges. Cancel any month from the app in two taps.</p>
+      </div>
+    </section>
+
+    <section class="pricing">
+      <div class="container">
+        <div class="pricing-grid">
+
+          <div class="price-card">
+            <div class="price-name">Free</div>
+            <div class="price-amount">£0<span class="small">/mo</span></div>
+            <p class="price-tagline">Try the AI for yourself.</p>
+            <ul class="price-list">
+              <li>3 quotes per day</li>
+              <li>UK pricing baseline</li>
+              <li>Itemised line items</li>
+              <li>Watermarked PDF</li>
+              <li>Browser only</li>
+            </ul>
+            <a href="/" class="price-cta">Try now</a>
+          </div>
+
+          <div class="price-card">
+            <div class="price-name">Solo</div>
+            <div class="price-amount">£14<span class="small">/mo</span></div>
+            <p class="price-tagline">For one sparks doing it all.</p>
+            <ul class="price-list">
+              <li>60 quotes per month</li>
+              <li>Branded PDF (no watermark)</li>
+              <li>Custom rates &amp; markup</li>
+              <li>EIC &amp; MWC certificate text</li>
+              <li>iPhone &amp; Android app</li>
+              <li>Email support</li>
+            </ul>
+            <button class="price-cta" data-plan="solo">Start free trial</button>
+          </div>
+
+          <div class="price-card featured">
+            <div class="price-tag">Most popular</div>
+            <div class="price-name">Pro</div>
+            <div class="price-amount">£29<span class="small">/mo</span></div>
+            <p class="price-tagline">For sparks who quote a lot.</p>
+            <ul class="price-list">
+              <li><strong>Unlimited</strong> quotes</li>
+              <li>Everything in Solo</li>
+              <li>EICR templates &amp; reports</li>
+              <li>Voice transcription</li>
+              <li>Customer e-sign</li>
+              <li>Deposit collection</li>
+              <li>Priority support</li>
+            </ul>
+            <button class="price-cta" data-plan="pro">Start free trial</button>
+          </div>
+
+          <div class="price-card">
+            <div class="price-name">Crew</div>
+            <div class="price-amount">£69<span class="small">/mo</span></div>
+            <p class="price-tagline">For 2-5 sparks on the team.</p>
+            <ul class="price-list">
+              <li>Up to 5 user accounts</li>
+              <li>Everything in Pro</li>
+              <li>Shared customer database</li>
+              <li>Team scheduling</li>
+              <li>Quote approval flow</li>
+              <li>Dedicated account manager</li>
+            </ul>
+            <button class="price-cta" data-plan="crew">Start free trial</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="compare-section">
+      <div class="container">
+        <h2>How we compare</h2>
+        <p class="lead">The big trade software was built for ten-van firms. Powered Now and Tradify are the closest competitors at our scale. Here's how we stack up on the things that matter to a one-man-band sparks.</p>
+        <div class="compare">
+          <div class="compare-row head">
+            <div class="compare-cell"></div>
+            <div class="compare-cell">Powered Now</div>
+            <div class="compare-cell">Tradify</div>
+            <div class="compare-cell you">Blackmoped Pro</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell label">Solo monthly price</div>
+            <div class="compare-cell">£15</div>
+            <div class="compare-cell">£34</div>
+            <div class="compare-cell you">£14 (Solo) / £29 (Pro)</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell label">AI voice-to-quote</div>
+            <div class="compare-cell x">No</div>
+            <div class="compare-cell x">No</div>
+            <div class="compare-cell you check">Yes</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell label">Knows Part P / BS 7671</div>
+            <div class="compare-cell">Forms only</div>
+            <div class="compare-cell x">No</div>
+            <div class="compare-cell you check">Yes</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell label">EICR templates</div>
+            <div class="compare-cell check">Yes</div>
+            <div class="compare-cell x">No</div>
+            <div class="compare-cell you check">Yes</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell label">Time to write a quote</div>
+            <div class="compare-cell">10-20 min</div>
+            <div class="compare-cell">10-20 min</div>
+            <div class="compare-cell you">Under 60 sec</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell label">Setup time</div>
+            <div class="compare-cell">Hours</div>
+            <div class="compare-cell">Hours</div>
+            <div class="compare-cell you">3 minutes</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <div class="container">
+        <h2 style="font-family:'Anton',sans-serif;font-size:32px;letter-spacing:-0.01em;text-transform:uppercase;margin-bottom:24px">Pricing questions</h2>
+
+        <details class="faq">
+          <summary>Is the free trial really free?<span class="faq-toggle">+</span></summary>
+          <p>Yes. No card needed. You get 3 free quotes per day forever to try the tool. When you're ready, pick a paid plan and your card only gets charged after a 14-day trial of the paid features.</p>
+        </details>
+        <details class="faq">
+          <summary>Can I cancel?<span class="faq-toggle">+</span></summary>
+          <p>Any time, two taps inside the app. No retention calls, no annual contracts. If it isn't paying for itself in time saved, don't pay for it.</p>
+        </details>
+        <details class="faq">
+          <summary>What if I need more than 60 quotes a month on Solo?<span class="faq-toggle">+</span></summary>
+          <p>Upgrade to Pro for unlimited. You can switch up or down month-to-month. We don't charge per extra quote — if you're regularly hitting the cap, Pro is better value anyway.</p>
+        </details>
+        <details class="faq">
+          <summary>Do you offer annual discounts?<span class="faq-toggle">+</span></summary>
+          <p>Pay for 12 months upfront and get 2 months free (effectively 17% off). That makes Pro work out to £24.17/mo and Solo £11.67/mo annualised.</p>
+        </details>
+        <details class="faq">
+          <summary>VAT?<span class="faq-toggle">+</span></summary>
+          <p>Prices shown are excluding VAT. UK customers will see 20% added at checkout. Outside the UK is reverse-charged where applicable.</p>
+        </details>
+        <details class="faq">
+          <summary>Can I get an invoice for my accountant?<span class="faq-toggle">+</span></summary>
+          <p>Yes. Every payment generates a proper VAT invoice, downloadable from your account at any time. Tradesperson-friendly, accountant-friendly.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="10" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="30" cy="28" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M 10 28 L 16 18 L 26 18 L 30 28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 18 18 L 22 10 L 28 10" stroke="#f5d020" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+            <span class="logo-text">Blackmoped</span>
+          </a>
+          <p>AI quoting and paperwork for UK electricians.</p>
+        </div>
+        <div class="footer-col"><h5>Product</h5><a href="/">Quote tool</a><a href="/pricing.html">Pricing</a></div>
+        <div class="footer-col"><h5>Company</h5><a href="/contact.html">Contact</a><a href="/about.html">About</a></div>
+        <div class="footer-col"><h5>Legal</h5><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Blackmoped</span>
+        <span>blackmoped.com</span>
+        <span>Made for UK sparks</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <h3 id="modalTitle">Coming soon</h3>
+      <p id="modalText">Paid subscriptions launch shortly. We're finalising payment integration with Stripe. For early-access pricing — first 3 months at <strong>50% off</strong> — email <a href="mailto:hello@blackmoped.com">hello@blackmoped.com</a> with the plan you want and we'll set it up manually.</p>
+      <button class="modal-close" id="modalClose">Got it</button>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('[data-plan]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const plan = btn.dataset.plan;
+        // When Stripe is wired up, this calls /api/checkout and redirects.
+        try {
+          const res = await fetch('https://blackmoped-backend.onrender.com/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan })
+          });
+          const data = await res.json();
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            // Fallback: show modal with manual signup
+            document.getElementById('modalTitle').textContent = 'Get early access';
+            document.getElementById('modalText').innerHTML =
+              `Paid subscriptions launch shortly. For the <strong>${plan.toUpperCase()}</strong> plan with our early-access pricing — first 3 months at <strong>50% off</strong> — email <a href="mailto:hello@blackmoped.com?subject=Early access: ${plan}">hello@blackmoped.com</a> and we'll set you up.`;
+            document.getElementById('modal').classList.add('visible');
+          }
+        } catch (e) {
+          document.getElementById('modal').classList.add('visible');
+        }
+      });
+    });
+    document.getElementById('modalClose').addEventListener('click', () => {
+      document.getElementById('modal').classList.remove('visible');
+    });
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target.id === 'modal') document.getElementById('modal').classList.remove('visible');
+    });
+  </script>
+</body>
+</html>
